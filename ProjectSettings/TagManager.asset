@@ -5,6 +5,10 @@ TagManager:
   serializedVersion: 3
   tags:
   - Ladder
+  - Platform
+  - Fire
+  - Barrel
+  - Hammer
   layers:
   - Default
   - TransparentFX
@@ -12,8 +16,8 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
+  - Platform
+  - Player
   - 
   - 
   - 
@@ -47,6 +51,15 @@ TagManager:
     locked: 0
   - name: Platform
     uniqueID: 994258915
+    locked: 0
+  - name: Foregrounf
+    uniqueID: 421568173
+    locked: 0
+  - name: Midground
+    uniqueID: 1663474303
+    locked: 0
+  - name: Background
+    uniqueID: 937462185
     locked: 0
   m_RenderingLayers:
   - Default

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3410596167435879756}
   - component: {fileID: 5446870517405789802}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Untitled_86
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,9 +97,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8929475733060232196}
   - component: {fileID: 1164341047413237517}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Platform 2x1
-  m_TagString: Untagged
+  m_TagString: Platform
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -177,7 +177,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8940352944821900340}
   - component: {fileID: 6304134960791222042}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Untitled_86
   m_TagString: Untagged
   m_Icon: {fileID: 0}
