@@ -66,15 +66,15 @@ public class PlayerController : MonoBehaviour
         {
             {
                 //jump for set amount of distance
-                if (minJumpDistance >= maxJumpDistance && isGrounded)
+                if (minJumpDistance >= maxJumpDistance )
                 {
                     isJumping = false;
                     minJumpDistance = 0;
                 }
                 else
                 {
-                    rb.linearVelocityX = (walkSpeed * 0.5f) * direction;
                     minJumpDistance += 0.1f;
+                    rb.linearVelocityX = (walkSpeed * 0.5f) * direction;
                 }
 
             }
