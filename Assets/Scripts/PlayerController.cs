@@ -59,7 +59,7 @@ public class PlayerController : MonoBehaviour
                 }
                 else if (Input.GetAxisRaw("Vertical") > 0)
                 {
-                    rb.linearVelocityY = climbSpeed;
+                    rb.linearVelocityY = (climbSpeed * Time.deltaTime);
                 }
                 else
                 {
@@ -78,7 +78,7 @@ public class PlayerController : MonoBehaviour
                     }
                     else
                     {
-                        rb.linearVelocityX = (walkSpeed * 0.5f) * direction;
+                        rb.linearVelocityX = ((walkSpeed * 0.5f) * direction) * Time.deltaTime;
                         minJumpDistance += 0.1f;
                     }
 
@@ -93,13 +93,13 @@ public class PlayerController : MonoBehaviour
                 {
                     onLadder = true;
                     rb.gravityScale = 0;
-                    rb.linearVelocityY = climbSpeed;
+                    rb.linearVelocityY = climbSpeed * Time.deltaTime;
                 }
                 else if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
                 {
                     if (!isJumping)
                     {
-                        rb.linearVelocityY = jumpForce;
+                        rb.linearVelocityY = jumpForce * Time.deltaTime;
 
                         isJumping = true;
                     }
@@ -108,13 +108,13 @@ public class PlayerController : MonoBehaviour
                 {
                     transform.localScale = new Vector3(-0.6f, transform.localScale.y, -0.6f);
                     isRight = true;
-                    rb.linearVelocityX = (walkSpeed * direction);
+                    rb.linearVelocityX = (walkSpeed * direction) * Time.deltaTime;
                 }
                 else if (Input.GetAxisRaw("Horizontal") < 0)
                 {
                     transform.localScale = new Vector3(0.6f, transform.localScale.y, 0.6f);
                     isRight = false;
-                    rb.linearVelocityX = (walkSpeed * direction);
+                    rb.linearVelocityX = (walkSpeed * direction) * Time.deltaTime;
                 }
                 else
                 {
