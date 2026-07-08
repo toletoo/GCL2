@@ -1,0 +1,39 @@
+using System.Collections;
+using UnityEngine;
+
+public class BarrelSpawn : MonoBehaviour
+{
+    private LevelManager levelManager;
+    [SerializeField] GameObject barrel;
+    [SerializeField] float barrelSpawnCooldown = 2f;
+    private bool canSpawn = false;
+    
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
+    {
+        levelManager = FindFirstObjectByType<LevelManager>();
+        canSpawn = true;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        SpawnBarrelCo();
+    }
+
+    void SpawnBarrelCo()
+    {
+        if (levelManager.gameStarted && canSpawn)
+        {
+            StartCoroutine(SpawnBarrel());
+        }
+    }
+
+    IEnumerator SpawnBarrel()
+    {
+        Instantiate(barrel,gameObject.transform.position,Quaternion.identity);
+        canSpawn = false;
+        yield return new WaitForSeconds(barrelSpawnCooldown);
+        canSpawn = true;
+    }
+}
