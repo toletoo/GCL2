@@ -5,6 +5,7 @@ public class BarrelMovement : MonoBehaviour
 {
     private Rigidbody2D barrelRb;
     [SerializeField] float barrelMoveSpeed = 50f;
+    [SerializeField] GameObject targetNode;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -15,11 +16,7 @@ public class BarrelMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        gameObject.transform.Translate(Vector2.right * barrelMoveSpeed * Time.deltaTime);
-    }
-
-    private void FixedUpdate()
-    {
-        
+        //gameObject.transform.Translate(Vector2.right * barrelMoveSpeed * Time.deltaTime);
+        transform.position = Vector2.MoveTowards(transform.position, targetNode.transform.position, barrelMoveSpeed * Time.deltaTime);
     }
 }
