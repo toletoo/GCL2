@@ -7,6 +7,10 @@ public class BarrelSpawn : MonoBehaviour
     [SerializeField] GameObject barrel;
     [SerializeField] float barrelSpawnCooldown = 2f;
     private bool canSpawn = false;
+
+    // for debugging purposes
+    [SerializeField] int maxSpawnCount = 1;
+    private int currentSpawnCount = 0;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -32,8 +36,12 @@ public class BarrelSpawn : MonoBehaviour
     IEnumerator SpawnBarrel()
     {
         Instantiate(barrel,gameObject.transform.position,Quaternion.identity);
+        currentSpawnCount++;
         canSpawn = false;
         yield return new WaitForSeconds(barrelSpawnCooldown);
-        canSpawn = true;
+        if (currentSpawnCount < maxSpawnCount)
+        { 
+            canSpawn = true;
+        }
     }
 }
