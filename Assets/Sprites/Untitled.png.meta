@@ -1502,12 +1502,12 @@ TextureImporter:
       name: Untitled_70
       rect:
         serializedVersion: 2
-        x: 16
+        x: 10
         y: 54
-        width: 12
+        width: 25
         height: 25
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.48978415, y: 0.35697785}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1568,12 +1568,12 @@ TextureImporter:
       name: Untitled_74
       rect:
         serializedVersion: 2
-        x: 38
+        x: 35
         y: 54
-        width: 27
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        width: 37
+        height: 25
+      alignment: 9
+      pivot: {x: 0.67033356, y: 0.31892976}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1876,7 +1876,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: e9c8505f3a041b44f84391d4641c16d9
     internalID: 0
     vertices: []
     indices: 

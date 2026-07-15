@@ -1,9 +1,11 @@
+using Unity.Hierarchy;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
     [Header("Basic Movement")]
     public float walkSpeed = 10f;
+    public float forwardJumpForce = 10f;
     public float jumpForce = 10f;
     public bool isRight = false;
     public bool isGrounded;
@@ -13,6 +15,7 @@ public class PlayerController : MonoBehaviour
     public LayerMask realGround;
     public float maxJumpDistance;
     public float minJumpDistance;
+    private float currenHorizontalInput;
     public bool isJumping = false;
     public bool canMove = false;
 
@@ -23,11 +26,16 @@ public class PlayerController : MonoBehaviour
     public bool isLadderNearby = false;
     public bool onLadder = false;
     public float climbSpeed;
+    public float minClimbPlatform;//time take to climb platform
+    public float maxClimbPlatform;
 
     [Header("Hammer Related")]
     public bool hammerState = false;
+
+    public float hammerTime;
+    private float initialHammerTime;
     private Rigidbody2D rb;
-    private CapsuleCollider2D capsuleCollider;
+    private BoxCollider2D boxCollider;
     private SpriteRenderer spriteRenderer;
     private Animator anim;
 
@@ -38,9 +46,11 @@ public class PlayerController : MonoBehaviour
     {
         initialLocalScale = transform.localScale; // store the local scale values
         currentLocalScale = initialLocalScale;
+        initialHammerTime = hammerTime; //store the initial hammer time
         rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        capsuleCollider = GetComponent<CapsuleCollider2D>();
+        boxCollider = GetComponent<BoxCollider2D>();
         levelManager = FindFirstObjectByType<LevelManager>();
 
     }
@@ -61,15 +71,37 @@ public class PlayerController : MonoBehaviour
         //Movement
         if (canMove)
         {
+            //hammering
+            if (hammerState)
+            {
+                hammerTime -= 0.1f;
+                if (hammerTime <= 0)
+                {
+                    hammerState = false;
+                    hammerTime = initialHammerTime;
+                }
+                anim.SetBool("isHammering", hammerState);
+            }
             //Ladder
             if (onLadder)
             {
                 //ignore collision for platforms
                 Physics2D.IgnoreLayerCollision(7, 6, true);
                 if (!isLadderNearby)
-                {
-                    onLadder = false;
-                    rb.gravityScale = 1f;
+                { 
+                    //get your fatass over the platform
+                    if(minClimbPlatform < maxClimbPlatform)
+                    {
+                        rb.linearVelocityY = climbSpeed * Time.deltaTime;
+                        minClimbPlatform += 0.1f;
+                    }
+                    else
+                    {
+                        minClimbPlatform = 0;
+                        onLadder = false;
+                        rb.gravityScale = 1f;
+                    }
+
                 }
                 else if (Input.GetAxisRaw("Vertical") > 0)
                 {
@@ -80,7 +112,7 @@ public class PlayerController : MonoBehaviour
                     rb.linearVelocityY = 0.0f;
                 }
             }
-            //Jumping
+            //while jumping
             else if (isJumping)
             {
                 {
@@ -90,9 +122,13 @@ public class PlayerController : MonoBehaviour
                         isJumping = false;
                         minJumpDistance = 0;
                     }
+                    else if (minJumpDistance < maxJumpDistance && currenHorizontalInput != 0)
+                    {
+                        rb.linearVelocityX = (forwardJumpForce * direction) * Time.deltaTime;//added value specifically for jump move
+                        minJumpDistance += 0.1f;
+                    }
                     else
                     {
-                        rb.linearVelocityX = (walkSpeed * direction) * Time.deltaTime; // removed * .5 mutliplier on walkspeed
                         minJumpDistance += 0.1f;
                     }
 
@@ -101,39 +137,8 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                //Basic Movement
-                Physics2D.IgnoreLayerCollision(7, 6, false);
-                if (isLadderNearby && Input.GetAxisRaw("Vertical") > 0)
-                {
-                    onLadder = true;
-                    rb.gravityScale = 0;
-                    rb.linearVelocityY = climbSpeed * Time.deltaTime;
-                }
-                else if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
-                {
-                    if (!isJumping)
-                    {
-                        rb.linearVelocityY = jumpForce;
-
-                        isJumping = true;
-                    }
-                }
-                else if (Input.GetAxisRaw("Horizontal") > 0)
-                {
-                    transform.localScale = new Vector3(-currentLocalScale.x, transform.localScale.y, 1f);
-                    isRight = true;
-                    rb.linearVelocityX = (walkSpeed * direction) * Time.deltaTime;
-                }
-                else if (Input.GetAxisRaw("Horizontal") < 0)
-                {
-                    transform.localScale = new Vector3(currentLocalScale.x, transform.localScale.y, 1f);
-                    isRight = false;
-                    rb.linearVelocityX = (walkSpeed * direction) * Time.deltaTime;
-                }
-                else
-                {
-                    rb.linearVelocityX = 0;
-                }
+                //move
+                Move();
             }
         }
     }
@@ -143,11 +148,6 @@ public class PlayerController : MonoBehaviour
         if (collision.CompareTag("Ladder"))
         {
             isLadderNearby = true;
-        }
-        //check for hammer
-        if (collision.CompareTag("Hammer"))
-        {
-            hammerState = true;
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
@@ -160,4 +160,40 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void Move()
+    {
+        //Basic Movement
+        Physics2D.IgnoreLayerCollision(7, 6, false);
+        if (isLadderNearby && Input.GetAxisRaw("Vertical") > 0)
+        {
+            onLadder = true;
+            rb.gravityScale = 0;
+            rb.linearVelocityY = climbSpeed * Time.deltaTime;
+        }
+        else if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        {
+            if (!isJumping)
+            {
+                currenHorizontalInput = Input.GetAxisRaw("Horizontal");
+                rb.linearVelocityY = jumpForce;
+                isJumping = true;
+            }
+        }
+        else if (Input.GetAxisRaw("Horizontal") > 0)
+        {
+            transform.localScale = new Vector3(-currentLocalScale.x, transform.localScale.y, 1f);
+            isRight = true;
+            rb.linearVelocityX = (walkSpeed * direction) * Time.deltaTime;
+        }
+        else if (Input.GetAxisRaw("Horizontal") < 0)
+        {
+            transform.localScale = new Vector3(currentLocalScale.x, transform.localScale.y, 1f);
+            isRight = false;
+            rb.linearVelocityX = (walkSpeed * direction) * Time.deltaTime;
+        }
+        else
+        {
+            rb.linearVelocityX = 0;
+        }
+    }
 }
