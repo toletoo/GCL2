@@ -15,6 +15,7 @@ public class BarrelMovement : MonoBehaviour
     [SerializeField] float fallingSpeed = 8;
     private Transform targetNode;
     private NodeManager nodeManager;
+    private LevelManager levelManager;
     private int currentNodeNum = 1;
 
     private float xPos;
@@ -41,11 +42,13 @@ public class BarrelMovement : MonoBehaviour
         nodeManager = FindFirstObjectByType<NodeManager>();
         targetNode = nodeManager.nodes[currentNodeNum];
         barrelCollider = GetComponent<Collider2D>();
+        levelManager = FindFirstObjectByType<LevelManager>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (levelManager.currentGameState != GameState.Playing) return;
         print(currentState);
         switch (currentState)
         {

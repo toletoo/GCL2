@@ -16,6 +16,9 @@ public class PlayerController : MonoBehaviour
     public bool isJumping = false;
     public bool canMove = false;
 
+    private Vector3 initialLocalScale;
+    private Vector3 currentLocalScale;
+
     [Header("Ladder Related")]
     public bool isLadderNearby = false;
     public bool onLadder = false;
@@ -28,18 +31,29 @@ public class PlayerController : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private Animator anim;
 
+    private LevelManager levelManager;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        initialLocalScale = transform.localScale; // store the local scale values
+        currentLocalScale = initialLocalScale;
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         capsuleCollider = GetComponent<CapsuleCollider2D>();
+        levelManager = FindFirstObjectByType<LevelManager>();
 
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (levelManager.currentGameState != GameState.Playing) // when mario dies, all movement stopped
+        {
+            rb.linearVelocity = Vector3.zero;
+            return;
+        }
+            
         //Check direction
         direction = isRight ? 1.0f : -1.0f;
         //Check if grounded
@@ -78,7 +92,7 @@ public class PlayerController : MonoBehaviour
                     }
                     else
                     {
-                        rb.linearVelocityX = ((walkSpeed * 0.5f) * direction) * Time.deltaTime;
+                        rb.linearVelocityX = (walkSpeed * direction) * Time.deltaTime; // removed * .5 mutliplier on walkspeed
                         minJumpDistance += 0.1f;
                     }
 
@@ -99,20 +113,20 @@ public class PlayerController : MonoBehaviour
                 {
                     if (!isJumping)
                     {
-                        rb.linearVelocityY = jumpForce * Time.deltaTime;
+                        rb.linearVelocityY = jumpForce;
 
                         isJumping = true;
                     }
                 }
                 else if (Input.GetAxisRaw("Horizontal") > 0)
                 {
-                    transform.localScale = new Vector3(-0.6f, transform.localScale.y, -0.6f);
+                    transform.localScale = new Vector3(-currentLocalScale.x, transform.localScale.y, 1f);
                     isRight = true;
                     rb.linearVelocityX = (walkSpeed * direction) * Time.deltaTime;
                 }
                 else if (Input.GetAxisRaw("Horizontal") < 0)
                 {
-                    transform.localScale = new Vector3(0.6f, transform.localScale.y, 0.6f);
+                    transform.localScale = new Vector3(currentLocalScale.x, transform.localScale.y, 1f);
                     isRight = false;
                     rb.linearVelocityX = (walkSpeed * direction) * Time.deltaTime;
                 }

@@ -64,5 +64,8 @@ TagManager:
   - name: Barrel
     uniqueID: 4124426313
     locked: 0
+  - name: Player
+    uniqueID: 3185376245
+    locked: 0
   m_RenderingLayers:
   - Default
