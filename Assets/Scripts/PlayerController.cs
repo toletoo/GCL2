@@ -26,18 +26,18 @@ public class PlayerController : MonoBehaviour
     public bool isLadderNearby = false;
     public bool onLadder = false;
     public float climbSpeed;
-    public float minClimbPlatform;//time take to climb platform
-    public float maxClimbPlatform;
+
 
     [Header("Hammer Related")]
     public bool hammerState = false;
-
+    public float hammerWalkSpeed = 10f;
     public float hammerTime;
     private float initialHammerTime;
     private Rigidbody2D rb;
-    private BoxCollider2D boxCollider;
+    private Collider2D capsuleCollider;
     private SpriteRenderer spriteRenderer;
     private Animator anim;
+    private Transform platformGap; //Platform to climb up to
 
     private LevelManager levelManager;
 
@@ -50,7 +50,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        boxCollider = GetComponent<BoxCollider2D>();
+        capsuleCollider = GetComponent<CapsuleCollider2D>();
         levelManager = FindFirstObjectByType<LevelManager>();
 
     }
@@ -60,6 +60,7 @@ public class PlayerController : MonoBehaviour
     {
         if (levelManager.currentGameState != GameState.Playing) // when mario dies, all movement stopped
         {
+            hammerTime = 0;
             rb.linearVelocity = Vector3.zero;
             return;
         }
@@ -85,22 +86,13 @@ public class PlayerController : MonoBehaviour
             //Ladder
             if (onLadder)
             {
-                //ignore collision for platforms
-                Physics2D.IgnoreLayerCollision(7, 6, true);
                 if (!isLadderNearby)
-                { 
+                {
                     //get your fatass over the platform
-                    if(minClimbPlatform < maxClimbPlatform)
-                    {
-                        rb.linearVelocityY = climbSpeed * Time.deltaTime;
-                        minClimbPlatform += 0.1f;
-                    }
-                    else
-                    {
-                        minClimbPlatform = 0;
-                        onLadder = false;
+
+                    capsuleCollider.isTrigger = false;
+                    onLadder = false;
                         rb.gravityScale = 1f;
-                    }
 
                 }
                 else if (Input.GetAxisRaw("Vertical") > 0)
@@ -119,6 +111,7 @@ public class PlayerController : MonoBehaviour
                     //jump for set amount of distance
                     if (minJumpDistance >= maxJumpDistance && isGrounded)
                     {
+                        capsuleCollider.isTrigger = false;
                         isJumping = false;
                         minJumpDistance = 0;
                     }
@@ -142,6 +135,7 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         //Check if ladder is nearby
@@ -149,6 +143,11 @@ public class PlayerController : MonoBehaviour
         {
             isLadderNearby = true;
         }
+        if (collision.CompareTag("Platform"))
+        {
+            platformGap = collision.transform;
+        }
+        
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
@@ -163,9 +162,9 @@ public class PlayerController : MonoBehaviour
     public void Move()
     {
         //Basic Movement
-        Physics2D.IgnoreLayerCollision(7, 6, false);
         if (isLadderNearby && Input.GetAxisRaw("Vertical") > 0)
         {
+            capsuleCollider.isTrigger = true;
             onLadder = true;
             rb.gravityScale = 0;
             rb.linearVelocityY = climbSpeed * Time.deltaTime;
@@ -174,6 +173,7 @@ public class PlayerController : MonoBehaviour
         {
             if (!isJumping)
             {
+                capsuleCollider.isTrigger = true;
                 currenHorizontalInput = Input.GetAxisRaw("Horizontal");
                 rb.linearVelocityY = jumpForce;
                 isJumping = true;
@@ -181,15 +181,34 @@ public class PlayerController : MonoBehaviour
         }
         else if (Input.GetAxisRaw("Horizontal") > 0)
         {
-            transform.localScale = new Vector3(-currentLocalScale.x, transform.localScale.y, 1f);
-            isRight = true;
-            rb.linearVelocityX = (walkSpeed * direction) * Time.deltaTime;
+            if (hammerState)
+            {
+                transform.localScale = new Vector3(-currentLocalScale.x, transform.localScale.y, 1f);
+                isRight = true;
+                rb.linearVelocityX = (hammerWalkSpeed * direction) * Time.deltaTime;
+            }
+            else
+            {
+                transform.localScale = new Vector3(-currentLocalScale.x, transform.localScale.y, 1f);
+                isRight = true;
+                rb.linearVelocityX = (walkSpeed * direction) * Time.deltaTime;
+            }
+
         }
         else if (Input.GetAxisRaw("Horizontal") < 0)
         {
-            transform.localScale = new Vector3(currentLocalScale.x, transform.localScale.y, 1f);
-            isRight = false;
-            rb.linearVelocityX = (walkSpeed * direction) * Time.deltaTime;
+            if (hammerState)
+            {
+                transform.localScale = new Vector3(currentLocalScale.x, transform.localScale.y, 1f);
+                isRight = false;
+                rb.linearVelocityX = (hammerWalkSpeed * direction) * Time.deltaTime;
+            }
+            else
+            {
+                transform.localScale = new Vector3(currentLocalScale.x, transform.localScale.y, 1f);
+                isRight = false;
+                rb.linearVelocityX = (walkSpeed * direction) * Time.deltaTime;
+            }
         }
         else
         {
