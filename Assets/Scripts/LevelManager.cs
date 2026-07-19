@@ -42,7 +42,7 @@ public class LevelManager : MonoBehaviour
     }
     IEnumerator StartGame()
     {
-        yield return new WaitForSeconds(gameStartDelay);
+        yield return new WaitForSeconds(gameStartDelay); // delays start of game
         gameStarted = true;
         playerController.canMove = true;
         print("Can move");
