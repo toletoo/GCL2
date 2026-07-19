@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 
 using Color = UnityEngine.Color;
+using System.Diagnostics;
 public class FallingPlatform : MonoBehaviour
 {
     #region Variables
@@ -62,5 +63,9 @@ public class FallingPlatform : MonoBehaviour
         }
     }
 
-
+    private void OnDrawGizmos() //Show Placement of Platforms in editor only
+    {
+        Gizmos.color = Color.black;
+        Gizmos.DrawSphere(transform.position, 0.1f);
+    }
 }   
