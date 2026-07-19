@@ -49,7 +49,7 @@ public class BarrelMovement : MonoBehaviour
     void Update()
     {
         if (levelManager.currentGameState != GameState.Playing) return;
-        print(currentState);
+        //print(currentState);
         switch (currentState)
         {
             case BarrelState.Rolling:
