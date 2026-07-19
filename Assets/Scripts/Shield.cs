@@ -1,43 +1,52 @@
+using System.Collections;
 using UnityEngine;
 
 public class Shield : MonoBehaviour
 {
     public bool shieldState;
-    private Collider2D collider2D;
+    public float shieldDuration;
+    private Collider2D boxCollider;
     private SpriteRenderer spriteRenderer;
-    [SerializeField] private Transform pivotPoint;
-    [SerializeField] private Camera cam;
+    [SerializeField] private Transform pivotPoint;//get pivot parent
+    [SerializeField] private Camera cam;//get camera
+    public Vector3 mousePosition;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        collider2D = GetComponent<BoxCollider2D>();
+        boxCollider = GetComponent<BoxCollider2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        shieldState = false;
     }
 
     // Update is called once per frame
     void Update()
     {
+        //set the visibility and boxcollider to the shield state
         spriteRenderer.enabled = shieldState;
-        collider2D.enabled = shieldState;
+        boxCollider.enabled = shieldState;
         Shielding();
+        ShieldCountdown();
     }
     public void Shielding()
     {
-        if (shieldState) 
+        if (shieldState && shieldDuration > 0) 
         {
-            Vector3 mousePosition = cam.ScreenToWorldPoint(Input.mousePosition);
+            mousePosition = cam.ScreenToWorldPoint(Input.mousePosition);//get mouse position
             mousePosition.z = 0f;
             var direction = pivotPoint.position - mousePosition;
-            var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg +90f;
-            pivotPoint.rotation = Quaternion.Euler(0,0, angle);
+            var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg +90f;//get angle
+            pivotPoint.rotation = Quaternion.Euler(0,0, angle);//rotate to mouse
         }
     }
-    private void OnTriggerEnter2D(Collider2D collision)
+    public void ShieldCountdown()
     {
-        if (collision.CompareTag("ParryBarrel")) 
+        //how long 
+        if(shieldDuration > 0)
         {
-            
+            shieldDuration -= 1f;
+        }
+        else
+        {
+            shieldState = false;
         }
     }
 }
