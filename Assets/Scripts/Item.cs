@@ -24,6 +24,11 @@ public class Item : MonoBehaviour
                     playerController.hammerState = true;
                     Destroy(this.gameObject);
                     break;
+                case "Cover":
+                    var shield = collision.GetComponentInChildren<Shield>();
+                    shield.shieldState = true;
+                    Destroy(this.gameObject);
+                    break;
                 default:
                     break;
             }

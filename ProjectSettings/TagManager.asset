@@ -9,6 +9,10 @@ TagManager:
   - Fire
   - Barrel
   - Hammer
+  - ParryBarrel
+  - Shield
+  - Monkey
+  - Cover
   layers:
   - Default
   - TransparentFX
