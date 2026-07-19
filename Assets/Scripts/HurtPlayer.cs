@@ -10,17 +10,11 @@ public class HurtPlayer : MonoBehaviour
         levelManager = FindFirstObjectByType<LevelManager>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Barrel"))
         {
-            levelManager.DeathCo();
+            levelManager.DeathCo(); // mario dies when he collides with barrel
         }
     }
 }

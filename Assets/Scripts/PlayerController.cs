@@ -83,15 +83,15 @@ public class PlayerController : MonoBehaviour
                 }
                 anim.SetBool("isHammering", hammerState);
             }
-            //Ladder
-            if (onLadder)
+            //Mario in ladder state
+            if (onLadder) 
             {
                 if (!isLadderNearby)
                 {
                     //get your fatass over the platform
                     capsuleCollider.isTrigger = false;
                     onLadder = false;
-                        rb.gravityScale = 1f;
+                    rb.gravityScale = 1f;
 
                 }
                 else if (Input.GetAxisRaw("Vertical") > 0)
@@ -137,10 +137,18 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+
         //Check if ladder is nearby
         if (collision.CompareTag("Ladder"))
         {
-            isLadderNearby = true;
+            if (collision.TryGetComponent<BrokenLadder>(out BrokenLadder brokenLadder) && brokenLadder.isBroken)
+            {
+                brokenLadder.canRepair = true;
+            }
+            else
+            {
+                isLadderNearby = true;
+            }
         }
         if (collision.CompareTag("Platform"))
         {
@@ -150,10 +158,18 @@ public class PlayerController : MonoBehaviour
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
+        
         //check if ladder not nearby
         if (collision.CompareTag("Ladder"))
         {
-            isLadderNearby = false;
+            if (collision.TryGetComponent<BrokenLadder>(out BrokenLadder brokenLadder) && brokenLadder.isBroken)
+            {
+                brokenLadder.canRepair = false;
+            }
+            else
+            {                
+                isLadderNearby = false;
+            }
            
         }
     }
@@ -161,7 +177,7 @@ public class PlayerController : MonoBehaviour
     public void Move()
     {
         //Basic Movement
-        if (isLadderNearby && Input.GetAxisRaw("Vertical") > 0)
+        if (isLadderNearby && Input.GetAxisRaw("Vertical") > 0) // movement on ladder
         {
             capsuleCollider.isTrigger = true;
             onLadder = true;

@@ -35,7 +35,7 @@ public class BarrelSpawn : MonoBehaviour
 
     IEnumerator SpawnBarrel()
     {
-        Instantiate(barrel,gameObject.transform.position,Quaternion.identity);
+        Instantiate(barrel,gameObject.transform.position,Quaternion.identity); // spawn barrels every x seconds
         currentSpawnCount++;
         canSpawn = false;
         yield return new WaitForSeconds(barrelSpawnCooldown);

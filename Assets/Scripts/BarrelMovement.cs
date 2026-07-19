@@ -13,11 +13,15 @@ public class BarrelMovement : MonoBehaviour
 {
     [SerializeField] float barrelMoveSpeed = 50f;
     [SerializeField] float fallingSpeed = 8;
+
+    // references
     private Transform targetNode;
     private NodeManager nodeManager;
     private LevelManager levelManager;
+
     private int currentNodeNum = 1;
 
+    //target x and y pos
     private float xPos;
     private float yPos;
 
@@ -69,12 +73,12 @@ public class BarrelMovement : MonoBehaviour
                 break;*/
         }
         
-        //gameObject.transform.Translate(Vector2.right * barrelMoveSpeed * Time.deltaTime);
         
-        
-
+        //calculate target xpos
         xPos = Mathf.MoveTowards(transform.position.x, targetNode.position.x, barrelMoveSpeed * Time.deltaTime);
         transform.position = new Vector2(xPos, yPos);
+
+        // switch to next target node when barrel gets close enough to current one
         if (Vector2.Distance(transform.position, targetNode.position) < 0.08f)
         {
             if (currentNodeNum < nodeManager.nodes.Count - 1)
@@ -82,7 +86,7 @@ public class BarrelMovement : MonoBehaviour
                 currentNodeNum++;
                 targetNode = nodeManager.nodes[currentNodeNum];
 
-                if (currentState == BarrelState.Rolling) // might change in future
+                if (currentState == BarrelState.Rolling) // switch between rolling and falling when dropping between girders
                 {
                     currentState = BarrelState.Falling;
                 }
@@ -109,13 +113,13 @@ public class BarrelMovement : MonoBehaviour
         Debug.DrawRay(transform.position, Vector2.down * rayCastDist, Color.red);
         if (hit)
         {
-            yPos = hit.point.y + barrelHalfHeight;
+            yPos = hit.point.y + barrelHalfHeight; // snap y offset to staggered steel beams on girder
 
         }
     }
 
     private void UpdateFalling()
     {
-        yPos = Mathf.MoveTowards(transform.position.y, targetNode.position.y, fallingSpeed * Time.deltaTime);
+        yPos = Mathf.MoveTowards(transform.position.y, targetNode.position.y, fallingSpeed * Time.deltaTime); // calculate target y pos
     }
 }
