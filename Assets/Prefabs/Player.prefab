@@ -181,9 +181,8 @@ MonoBehaviour:
   isLadderNearby: 0
   onLadder: 0
   climbSpeed: 50
-  minClimbPlatform: 0
-  maxClimbPlatform: 1
   hammerState: 0
+  hammerWalkSpeed: 180
   hammerTime: 25
 --- !u!114 &6248518050381528550
 MonoBehaviour:
@@ -253,8 +252,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.021347523, y: -0.101637244}
-  m_Size: {x: 0.18998718, y: 0.2967255}
+  m_Offset: {x: 0.024905682, y: -0.101637244}
+  m_Size: {x: 0.24691391, y: 0.2967255}
   m_Direction: 0
 --- !u!1 &6683931022520581638
 GameObject:

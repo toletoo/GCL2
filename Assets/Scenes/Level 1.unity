@@ -2858,21 +2858,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 579455372609738169, guid: 2df84dc19d55a504ebe0bcfdc6c6d3e0, type: 3}
-      propertyPath: hammerWalkSpeed
-      value: 180
-      objectReference: {fileID: 0}
-    - target: {fileID: 579455372609738169, guid: 2df84dc19d55a504ebe0bcfdc6c6d3e0, type: 3}
-      propertyPath: maxClimbPlatform
-      value: 6
-      objectReference: {fileID: 0}
     - target: {fileID: 3539238824482470891, guid: 2df84dc19d55a504ebe0bcfdc6c6d3e0, type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 3876935119747550583, guid: 2df84dc19d55a504ebe0bcfdc6c6d3e0, type: 3}
-      propertyPath: m_CollisionDetection
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7301999809904529631, guid: 2df84dc19d55a504ebe0bcfdc6c6d3e0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2913,14 +2901,6 @@ PrefabInstance:
     - target: {fileID: 7301999809904529631, guid: 2df84dc19d55a504ebe0bcfdc6c6d3e0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8773889716376415626, guid: 2df84dc19d55a504ebe0bcfdc6c6d3e0, type: 3}
-      propertyPath: m_Size.x
-      value: 0.24691391
-      objectReference: {fileID: 0}
-    - target: {fileID: 8773889716376415626, guid: 2df84dc19d55a504ebe0bcfdc6c6d3e0, type: 3}
-      propertyPath: m_Offset.x
-      value: 0.024905682
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
