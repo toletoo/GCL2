@@ -89,7 +89,6 @@ public class PlayerController : MonoBehaviour
                 if (!isLadderNearby)
                 {
                     //get your fatass over the platform
-
                     capsuleCollider.isTrigger = false;
                     onLadder = false;
                         rb.gravityScale = 1f;
