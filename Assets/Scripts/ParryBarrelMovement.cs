@@ -16,12 +16,9 @@ public class ParryBarrelMovement : MonoBehaviour
     {
         
     }
-<<<<<<< Updated upstream
-    
-=======
+
     public void Shoot()
     {
 
     }
->>>>>>> Stashed changes
 }
