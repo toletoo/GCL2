@@ -5,6 +5,7 @@ public class Shield : MonoBehaviour
 {
     public bool shieldState;
     public float shieldDuration;
+    private float shieldSavedDuration;
     private Collider2D boxCollider;
     private SpriteRenderer spriteRenderer;
     [SerializeField] private Transform pivotPoint;//get pivot parent
@@ -15,6 +16,7 @@ public class Shield : MonoBehaviour
     {
         boxCollider = GetComponent<BoxCollider2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        shieldSavedDuration = shieldDuration;
     }
 
     // Update is called once per frame
@@ -47,6 +49,7 @@ public class Shield : MonoBehaviour
         else
         {
             shieldState = false;
+            shieldDuration = shieldSavedDuration;
         }
     }
 }
