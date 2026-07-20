@@ -140,7 +140,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   barrelSpeed: 3
-  destroyTime: 3
+  destroyTime: 8
 --- !u!50 &-7306773498198066519
 Rigidbody2D:
   serializedVersion: 5

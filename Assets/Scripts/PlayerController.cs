@@ -1,4 +1,5 @@
 using Unity.Hierarchy;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -13,11 +14,10 @@ public class PlayerController : MonoBehaviour
     public Transform groundCheck;
     public float groundCheckRadius;
     public LayerMask realGround;
-    public float maxJumpDistance;
-    public float minJumpDistance;
-    private float currenHorizontalInput;
-    public bool isJumping = false;
+    public bool jump = false;
+    public bool climb = false;
     public bool canMove = false;
+    private Vector3 moveInput;
 
     private Vector3 initialLocalScale;
     private Vector3 currentLocalScale;
@@ -58,73 +58,59 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        float x = Input.GetAxisRaw("Horizontal");
+        float z = Input.GetAxisRaw("Vertical");
+        moveInput = new Vector3(x, 0f, z).normalized;
+        //Check direction
+        direction = isRight ? 1.0f : -1.0f;
+
+        //hammering
+        if (hammerState)
+        {
+            hammerTime -= 0.1f;
+            if (hammerTime <= 0)
+            {
+                hammerState = false;
+                hammerTime = initialHammerTime;
+            }
+            anim.SetBool("isHammering", hammerState);
+        }
+        //Movement
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        {
+            jump = true;
+        }
+            if (Input.GetAxisRaw("Vertical") > 0)
+            {
+                climb = true;
+            }
+        
+    }
+    public void FixedUpdate()
+    {
         if (levelManager.currentGameState != GameState.Playing) // when mario dies, all movement stopped
         {
             hammerTime = 0;
             rb.linearVelocity = Vector3.zero;
             return;
         }
-            
-        //Check direction
-        direction = isRight ? 1.0f : -1.0f;
         //Check if grounded
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, realGround);
-        //Movement
         if (canMove)
         {
-            //hammering
-            if (hammerState)
-            {
-                hammerTime -= 0.1f;
-                if (hammerTime <= 0)
-                {
-                    hammerState = false;
-                    hammerTime = initialHammerTime;
-                }
-                anim.SetBool("isHammering", hammerState);
-            }
-            //Mario in ladder state
-            if (onLadder) 
-            {
-                if (!isLadderNearby)
-                {
-                    //get your fatass over the platform
-                    capsuleCollider.isTrigger = false;
-                    onLadder = false;
-                    rb.gravityScale = 1f;
 
-                }
-                else if (Input.GetAxisRaw("Vertical") > 0)
-                {
-                    rb.linearVelocityY = (climbSpeed * Time.deltaTime);
-                }
-                else
-                {
-                    rb.linearVelocityY = 0.0f;
-                }
-            }
-            //while jumping
-            else if (isJumping)
-            {
-                {
-                    //jump for set amount of distance
-                    if (isGrounded)
-                    {
-                        capsuleCollider.isTrigger = false;
-                        isJumping = false;
-                    }
-
-                }
-
-            }
-            else
-            {
+                Ladder();
                 //move
+                Jump();
                 Move();
-            }
+                anim.SetFloat("isMoving", Mathf.Abs(rb.linearVelocityX));
+                anim.SetBool("isGrounded", isGrounded);
+
+
+
         }
     }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
 
@@ -167,57 +153,99 @@ public class PlayerController : MonoBehaviour
     public void Move()
     {
         //Basic Movement
-        if (isLadderNearby && Input.GetAxisRaw("Vertical") > 0) // movement on ladder
+
+         if (moveInput.x > 0 && !onLadder)
         {
-            capsuleCollider.isTrigger = true;
-            onLadder = true;
-            rb.gravityScale = 0;
-            rb.linearVelocityY = climbSpeed * Time.deltaTime;
-        }
-        else if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
-        {
-            if (!isJumping)
-            {
-                capsuleCollider.isTrigger = true;
-                currenHorizontalInput = Input.GetAxisRaw("Horizontal");
-                rb.linearVelocityY = jumpForce;
-                isJumping = true;
-            }
-        }
-        else if (Input.GetAxisRaw("Horizontal") > 0)
-        {
+            transform.localScale = new Vector3(-currentLocalScale.x, transform.localScale.y, 1f);
+            isRight = true;
             if (hammerState)
             {
-                transform.localScale = new Vector3(-currentLocalScale.x, transform.localScale.y, 1f);
-                isRight = true;
-                rb.linearVelocityX = (hammerWalkSpeed * direction) * Time.deltaTime;
+                rb.linearVelocityX = (hammerWalkSpeed * moveInput.x) * Time.deltaTime;
             }
             else
             {
-                transform.localScale = new Vector3(-currentLocalScale.x, transform.localScale.y, 1f);
-                isRight = true;
-                rb.linearVelocityX = (walkSpeed * direction) * Time.deltaTime;
+                rb.linearVelocityX = (walkSpeed * moveInput.x) * Time.deltaTime;
             }
 
         }
-        else if (Input.GetAxisRaw("Horizontal") < 0)
+        else if (moveInput.x < 0 && !onLadder)
         {
+            transform.localScale = new Vector3(currentLocalScale.x, transform.localScale.y, 1f);
+            isRight = false;
             if (hammerState)
             {
-                transform.localScale = new Vector3(currentLocalScale.x, transform.localScale.y, 1f);
-                isRight = false;
-                rb.linearVelocityX = (hammerWalkSpeed * direction) * Time.deltaTime;
+                rb.linearVelocityX = (hammerWalkSpeed * moveInput.x) * Time.deltaTime;
             }
             else
             {
-                transform.localScale = new Vector3(currentLocalScale.x, transform.localScale.y, 1f);
-                isRight = false;
-                rb.linearVelocityX = (walkSpeed * direction) * Time.deltaTime;
+                rb.linearVelocityX = (walkSpeed * moveInput.x) * Time.deltaTime;
             }
         }
         else
         {
             rb.linearVelocityX = 0;
         }
+    }
+    public void Jump()
+    {
+            if (jump)
+            {
+            capsuleCollider.isTrigger = true;
+            rb.linearVelocityY = jumpForce;
+            capsuleCollider.isTrigger = false;
+            jump = false;
+
+        }
+    }
+    public void Ladder()
+    {
+        if (climb && !onLadder)
+        {
+            if (isLadderNearby) // movement on ladder
+            {
+                capsuleCollider.isTrigger = true;
+                onLadder = true;
+                rb.gravityScale = 0;
+            }
+        }
+        else if (onLadder)
+        {
+            rb.linearVelocityX = 0;
+
+            if (!isLadderNearby)
+                {
+
+                    //get your fatass over the platform
+                    capsuleCollider.isTrigger = false;
+                    onLadder = false;
+                    climb = false;
+                    rb.gravityScale = 1f;
+
+                }
+                else if (moveInput.z > 0)
+                {
+                    rb.linearVelocityY = (climbSpeed * moveInput.z) * Time.deltaTime;
+            }
+            else
+            {
+                rb.linearVelocityY = 0;
+            }
+        }
+        climb = false;
+
+    }
+
+    private void Unused()
+    {
+
+
+        //Mario in ladder state
+
+
+
+                //stop
+
+
+
     }
 }

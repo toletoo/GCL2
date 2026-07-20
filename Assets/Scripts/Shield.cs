@@ -25,12 +25,16 @@ public class Shield : MonoBehaviour
         //set the visibility and boxcollider to the shield state
         spriteRenderer.enabled = shieldState;
         boxCollider.enabled = shieldState;
+
+    }
+    private void FixedUpdate()
+    {
         Shielding();
         ShieldCountdown();
     }
     public void Shielding()
     {
-        if (shieldState && shieldDuration > 0) 
+        if (shieldState) 
         {
             mousePosition = cam.ScreenToWorldPoint(Input.mousePosition);//get mouse position
             mousePosition.z = 0f;
@@ -42,9 +46,9 @@ public class Shield : MonoBehaviour
     public void ShieldCountdown()
     {
         //how long 
-        if(shieldDuration > 0)
+        if(shieldDuration > 0 && shieldState)
         {
-            shieldDuration -= 1f;
+            shieldDuration -= 0.1f;
         }
         else
         {
