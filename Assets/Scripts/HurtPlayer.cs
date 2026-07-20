@@ -25,5 +25,9 @@ public class HurtPlayer : MonoBehaviour
         {
             levelManager.DeathCo();
         }
+        else if (collision.CompareTag("Void"))
+        {
+            levelManager.DeathCo();
+        }
     }
 }
