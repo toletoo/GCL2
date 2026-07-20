@@ -139,9 +139,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9436087b656b5549b7cad689f7b6f6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  barrelSpeed: 5
+  barrelSpeed: 3
   destroyTime: 3
-  bufferWindow: 1
 --- !u!50 &-7306773498198066519
 Rigidbody2D:
   serializedVersion: 5

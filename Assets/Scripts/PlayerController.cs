@@ -108,20 +108,10 @@ public class PlayerController : MonoBehaviour
             {
                 {
                     //jump for set amount of distance
-                    if (minJumpDistance >= maxJumpDistance && isGrounded)
+                    if (isGrounded)
                     {
                         capsuleCollider.isTrigger = false;
                         isJumping = false;
-                        minJumpDistance = 0;
-                    }
-                    else if (minJumpDistance < maxJumpDistance && currenHorizontalInput != 0)
-                    {
-                        rb.linearVelocityX = (forwardJumpForce * direction) * Time.deltaTime;//added value specifically for jump move
-                        minJumpDistance += 0.1f;
-                    }
-                    else
-                    {
-                        minJumpDistance += 0.1f;
                     }
 
                 }
