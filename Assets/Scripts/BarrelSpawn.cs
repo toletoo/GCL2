@@ -12,11 +12,13 @@ public class BarrelSpawn : MonoBehaviour
     // for debugging purposes
     [SerializeField] int maxSpawnCount = 1;
     private int currentSpawnCount = 0;
+    private Animator monkeyAnim;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         levelManager = FindFirstObjectByType<LevelManager>();
+        monkeyAnim = GameObject.FindGameObjectWithTag("Monkey").GetComponent<Animator>();
         canSpawn = true;
     }
 
@@ -37,6 +39,7 @@ public class BarrelSpawn : MonoBehaviour
 
     IEnumerator SpawnBarrel()
     {
+        monkeyAnim.SetTrigger("isThrowing");
         Instantiate(barrel,gameObject.transform.position,Quaternion.identity); // spawn barrels every x seconds
         currentSpawnCount++;
         canSpawn = false;
@@ -49,9 +52,11 @@ public class BarrelSpawn : MonoBehaviour
 
     public IEnumerator Stun()
     {
+        monkeyAnim.SetBool("isStun", true);
         //Cant spawn barrel for set time
         isStun = true;
         yield return new WaitForSeconds(2f);
+        monkeyAnim.SetBool("isStun", false);
         isStun = false;
     }
 }
