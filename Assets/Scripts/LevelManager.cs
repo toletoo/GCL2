@@ -15,6 +15,10 @@ public class LevelManager : MonoBehaviour
     private PlayerController playerController;
     [SerializeField] float gameStartDelay = 1.5f;
     [SerializeField] float respawnDelay = 3f;
+    public AudioClip jingle;
+    public AudioClip song;
+    public AudioClip death;
+    private AudioSource audioSource;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public GameState currentGameState;
 
@@ -22,10 +26,12 @@ public class LevelManager : MonoBehaviour
     {
         currentGameState = GameState.Playing;
         playerController = FindFirstObjectByType<PlayerController>();
+        audioSource = GetComponent<AudioSource>();
         playerController.canMove = false;
     }
     void Start()
     {
+        audioSource.PlayOneShot(jingle);
         print("Cannot move");
         StartGameCo();
     }
@@ -39,6 +45,8 @@ public class LevelManager : MonoBehaviour
         yield return new WaitForSeconds(gameStartDelay); // delays start of game
         gameStarted = true;
         playerController.canMove = true;
+        audioSource.clip = song;
+        audioSource.Play();
         print("Can move");
     }
 
@@ -49,6 +57,8 @@ public class LevelManager : MonoBehaviour
 
     IEnumerator Death()
     {
+        audioSource.Stop();
+        audioSource.PlayOneShot(death);
         currentGameState = GameState.MarioDead;
         yield return new WaitForSeconds(respawnDelay);
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
