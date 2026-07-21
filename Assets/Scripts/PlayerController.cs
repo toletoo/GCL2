@@ -213,15 +213,15 @@ public class PlayerController : MonoBehaviour
             rb.linearVelocityX = 0;
 
             if (!isLadderNearby)
-                {
+            {
 
-                    //get your fatass over the platform
-                    capsuleCollider.isTrigger = false;
-                    onLadder = false;
-                    climb = false;
-                    rb.gravityScale = 1f;
+                //get your fatass over the platform
+                capsuleCollider.isTrigger = false;
+                onLadder = false;
+                climb = false;
+                rb.gravityScale = 1f;
 
-                }
+            }
                 else if (moveInput.z > 0)
                 {
                     rb.linearVelocityY = (climbSpeed * moveInput.z) * Time.deltaTime;

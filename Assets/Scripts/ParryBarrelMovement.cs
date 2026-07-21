@@ -18,11 +18,6 @@ public class ParryBarrelMovement : MonoBehaviour
         Shoot();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     public void Shoot()
     {

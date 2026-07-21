@@ -14,6 +14,7 @@ TagManager:
   - Monkey
   - Cover
   - Void
+  - ParrySpawn
   layers:
   - Default
   - TransparentFX

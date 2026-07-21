@@ -39,15 +39,27 @@ public class BarrelSpawn : MonoBehaviour
 
     IEnumerator SpawnBarrel()
     {
-        monkeyAnim.SetTrigger("isThrowing");
-        Instantiate(barrel,gameObject.transform.position,Quaternion.identity); // spawn barrels every x seconds
-        currentSpawnCount++;
+        if (!gameObject.CompareTag("ParrySpawn"))
+        {
+            monkeyAnim.SetTrigger("isThrowing");
+        }
+        if (gameObject.CompareTag("ParrySpawn")) // parry barrel spawns independently of DK throw anim
+        {
+            Instantiate(barrel, transform.position, Quaternion.identity);
+            currentSpawnCount++;
+        }
         canSpawn = false;
         yield return new WaitForSeconds(barrelSpawnCooldown);
         if (currentSpawnCount < maxSpawnCount)
         { 
             canSpawn = true;
         }
+    }
+
+    public void SpawnBarrelEvent()
+    {
+        Instantiate(barrel, transform.position, Quaternion.identity);
+        currentSpawnCount++;
     }
 
     public IEnumerator Stun()
