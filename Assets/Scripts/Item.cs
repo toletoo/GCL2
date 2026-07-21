@@ -30,6 +30,11 @@ public class Item : MonoBehaviour
                     shield.shieldState = true;
                     Destroy(this.gameObject);
                     break;
+                case "TempShield":
+                    var shieldState = collision.GetComponent<PlayerController>();
+                    shieldState.tempShieldState = true;
+                    Destroy(this.gameObject);
+                    break;
                 default:
                     break;
             }

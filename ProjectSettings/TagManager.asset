@@ -18,6 +18,7 @@ TagManager:
   - SpikeBarrel
   - SpikeSpawn
   - RegularSpawn
+  - TempShield
   layers:
   - Default
   - TransparentFX

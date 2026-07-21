@@ -38,7 +38,8 @@ public class PlayerController : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private Animator anim;
     private Transform platformGap; //Platform to climb up to
-
+    [Header("TempShield Related")]
+    public bool tempShieldState = false;
     private LevelManager levelManager;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -64,7 +65,7 @@ public class PlayerController : MonoBehaviour
         moveInput = new Vector3(x, 0f, z).normalized;
         //Check direction
         direction = isRight ? 1.0f : -1.0f;
-
+        TempShield();
         //hammering
         if (hammerState)
         {
@@ -150,6 +151,17 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void TempShield()
+    {
+        if (tempShieldState)
+        {
+            spriteRenderer.color = Color.red;
+        }
+        else
+        {
+            spriteRenderer.color = Color.white;
+        }
+    }
     public void Move()
     {
         //Basic Movement

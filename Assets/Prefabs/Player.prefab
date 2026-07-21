@@ -179,8 +179,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2ae3281bb27c6b478e19757960a4620, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shieldState: 1
-  shieldDuration: 10
+  shieldState: 0
+  shieldDuration: 60
   pivotPoint: {fileID: 6334845388722800910}
   cam: {fileID: 0}
   mousePosition: {x: 0, y: 0, z: 0}
@@ -359,9 +359,8 @@ MonoBehaviour:
   realGround:
     serializedVersion: 2
     m_Bits: 64
-  maxJumpDistance: 1.5
-  minJumpDistance: 0
-  isJumping: 0
+  jump: 0
+  climb: 0
   canMove: 0
   isLadderNearby: 0
   onLadder: 0
