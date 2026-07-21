@@ -36,7 +36,7 @@ public class HurtPlayer : MonoBehaviour
         if (collision.gameObject.CompareTag("SpikeBarrel") && playerController.hammerState || collision.gameObject.CompareTag("SpikeBarrel") && shield.shieldState)
         {
           
-           shield.shieldState = false;
+            shield.shieldState = false;
             playerController.hammerTime = 0;
             Destroy(collision.gameObject);
 

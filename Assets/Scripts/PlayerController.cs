@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour
     public bool hammerState = false;
     public float hammerWalkSpeed = 10f;
     public float hammerTime;
-    private float initialHammerTime;
+    public float initialHammerTime;
     private Rigidbody2D rb;
     private Collider2D capsuleCollider;
     private SpriteRenderer spriteRenderer;
