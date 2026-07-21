@@ -1,16 +1,15 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class switchscene : MonoBehaviour
+public class buttonswitchscene : MonoBehaviour
 {
+    // Name of the scene to load
     public string sceneName;
 
-    private void OnTriggerEnter2D(Collider2D other)
+    // Called by the button
+    public void LoadScene()
     {
-        if (other.CompareTag("Player"))
-        {
-            SceneManager.LoadScene(sceneName);
-        }
+        SceneManager.LoadScene(sceneName);
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
