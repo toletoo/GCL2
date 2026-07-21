@@ -30,12 +30,6 @@ public class LevelManager : MonoBehaviour
         StartGameCo();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     void StartGameCo()
     {
         StartCoroutine(StartGame());  

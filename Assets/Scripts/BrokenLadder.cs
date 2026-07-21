@@ -36,16 +36,16 @@ public class BrokenLadder : MonoBehaviour
 
         bool movementPressed = Input.GetAxisRaw("Horizontal") != 0|| Input.GetKeyDown(KeyCode.Space); // check for input
 
-        // hold leftshift to repair + progress bar appears
-        if (canRepair && Input.GetKey(KeyCode.LeftShift) && !movementPressed)
+        // hold leftshift to repair + progress bar appears as long as mario doesn't move
+        if (canRepair && Input.GetKey(KeyCode.LeftShift) && !movementPressed) 
         {
-            sliderObj.SetActive(true);
+            sliderObj.SetActive(true); // progress bar appears and starts to fill
             if (currentRepairTime < repairTime)
             {
                 currentRepairTime += Time.deltaTime;
                 repairSlider.value = currentRepairTime;
             }
-            else
+            else // progress bar maxes out and ladder is fixed
             {
                 canRepair = false;
                 isBroken = false;
@@ -54,9 +54,9 @@ public class BrokenLadder : MonoBehaviour
                 sliderObj.SetActive(false);
             }
         }
-        else
+        else // if mario moves, progress bar resets
         {
-            currentRepairTime = 0;
+            currentRepairTime = 0; 
             repairSlider.value = currentRepairTime;
             sliderObj.SetActive(false);
         }

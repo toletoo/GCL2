@@ -22,7 +22,6 @@ public class Item : MonoBehaviour
                 case "Hammer":
                     var playerController = collision.GetComponent<PlayerController>();
                     playerController.hammerState = true;
-                    playerController.hammerTime = playerController.initialHammerTime;
                     Destroy(this.gameObject);
                     break;
                 case "Cover":
