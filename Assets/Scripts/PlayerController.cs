@@ -213,51 +213,39 @@ public class PlayerController : MonoBehaviour
     {
         if (climb && !onLadder)
         {
-            if (isLadderNearby) // movement on ladder
+            if (isLadderNearby) 
             {
-                capsuleCollider.isTrigger = true;
+                //if ladder nearby
+                capsuleCollider.isTrigger = true;//dont collide when going through platform
                 onLadder = true;
                 rb.gravityScale = 0;
             }
         }
         else if (onLadder)
         {
-            rb.linearVelocityX = 0;
+            //when on ladder
+            rb.linearVelocityX = 0;//stop left right movement
 
             if (!isLadderNearby)
             {
-
-                //get your fatass over the platform
                 capsuleCollider.isTrigger = false;
                 onLadder = false;
                 climb = false;
-                rb.gravityScale = 1f;
+                rb.gravityScale = 1f;//come back to earth bro
 
             }
                 else if (moveInput.z > 0)
                 {
+                //movement on ladder
                     rb.linearVelocityY = (climbSpeed * moveInput.z) * Time.deltaTime;
             }
             else
             {
-                rb.linearVelocityY = 0;
+                rb.linearVelocityY = 0;//stop moving when no input
             }
         }
         climb = false;
 
     }
 
-    private void Unused()
-    {
-
-
-        //Mario in ladder state
-
-
-
-                //stop
-
-
-
-    }
 }

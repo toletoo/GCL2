@@ -3,32 +3,33 @@ using UnityEngine;
 public class HammerHit : MonoBehaviour
 {
     private PlayerController playerController;
-    private Collider2D boxCollider;
+    public GameObject hitbox;
+    public float radius;
+    public LayerMask layerMask;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         playerController = FindAnyObjectByType<PlayerController>();
-        boxCollider = GetComponent<BoxCollider2D>();
-        boxCollider.enabled = false;
+        hitbox = GameObject.FindGameObjectWithTag("AttackHitbox");
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(playerController.hammerState == true)
+
+    }
+    public void Hit()
+    {
+        Collider2D[] barrels = Physics2D.OverlapCircleAll(hitbox.transform.position, radius, layerMask);
+
+        foreach (Collider2D col in barrels)
         {
-            boxCollider.enabled = true;
-        }
-        else
-        {
-            boxCollider.enabled = false;
+            Destroy(col.gameObject);
         }
     }
-    private void OnTriggerEnter2D(Collider2D collision)
+
+    private void OnDrawGizmos()
     {
-        if (collision.CompareTag("Barrel") && playerController.hammerState == true)
-        {
-            Destroy(collision.gameObject);
-        }
+        Gizmos.DrawWireSphere(hitbox.transform.position, radius);
     }
 }

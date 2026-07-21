@@ -19,14 +19,14 @@ public class HurtPlayer : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Barrel") || collision.gameObject.CompareTag("ParryBarrel") && !playerController.hammerState)
+        if (collision.gameObject.CompareTag("Barrel") || collision.gameObject.CompareTag("ParryBarrel"))
         {
             if (playerController.tempShieldState)
             {
                 playerController.tempShieldState = false;
                 Destroy(collision.gameObject);
             }
-            else
+            else if (!playerController.hammerState)
             {
                 levelManager.DeathCo(); // mario dies when he collides with barrel
             }
@@ -34,14 +34,14 @@ public class HurtPlayer : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Barrel") || collision.gameObject.CompareTag("ParryBarrel") && !playerController.hammerState)
+        if (collision.gameObject.CompareTag("Barrel") || collision.gameObject.CompareTag("ParryBarrel"))
         {
             if (playerController.tempShieldState)
             {
                 playerController.tempShieldState = false;
                 Destroy(collision.gameObject);
             }
-            else
+            else if (!playerController.hammerState)
             {
                 levelManager.DeathCo(); // mario dies when he collides with barrel
             }

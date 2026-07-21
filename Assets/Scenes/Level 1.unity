@@ -3647,10 +3647,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 579455372609738169, guid: 2df84dc19d55a504ebe0bcfdc6c6d3e0, type: 3}
-      propertyPath: walkSpeed
-      value: 200
-      objectReference: {fileID: 0}
     - target: {fileID: 3539238824482470891, guid: 2df84dc19d55a504ebe0bcfdc6c6d3e0, type: 3}
       propertyPath: m_Name
       value: Player
@@ -3659,13 +3655,9 @@ PrefabInstance:
       propertyPath: cam
       value: 
       objectReference: {fileID: 519420031}
-    - target: {fileID: 4908232594735954810, guid: 2df84dc19d55a504ebe0bcfdc6c6d3e0, type: 3}
-      propertyPath: shieldState
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4908232594735954810, guid: 2df84dc19d55a504ebe0bcfdc6c6d3e0, type: 3}
-      propertyPath: shieldDuration
-      value: 60
+    - target: {fileID: 6683931022520581638, guid: 2df84dc19d55a504ebe0bcfdc6c6d3e0, type: 3}
+      propertyPath: m_TagString
+      value: AttackHitBox
       objectReference: {fileID: 0}
     - target: {fileID: 7301999809904529631, guid: 2df84dc19d55a504ebe0bcfdc6c6d3e0, type: 3}
       propertyPath: m_LocalPosition.x

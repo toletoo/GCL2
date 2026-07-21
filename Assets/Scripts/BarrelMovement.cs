@@ -122,4 +122,5 @@ public class BarrelMovement : MonoBehaviour
     {
         yPos = Mathf.MoveTowards(transform.position.y, targetNode.position.y, fallingSpeed * Time.deltaTime); // calculate target y pos
     }
+
 }
