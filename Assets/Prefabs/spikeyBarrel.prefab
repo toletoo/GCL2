@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -7306773498198066519}
   - component: {fileID: -7243999793896514948}
   m_Layer: 0
-  m_Name: spikedBarrel
+  m_Name: spikeyBarrel
   m_TagString: SpikeBarrel
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
