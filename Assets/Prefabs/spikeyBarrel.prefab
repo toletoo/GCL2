@@ -166,6 +166,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b035e5e214fa94c459d035a85fc5c694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  barrelMoveSpeed: 4
+  barrelMoveSpeed: 2.7
   fallingSpeed: 8
   rayCastDist: 0.3
