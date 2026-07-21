@@ -20,11 +20,11 @@ public class HammerHit : MonoBehaviour
     }
     public void Hit()
     {
-        Collider2D[] barrels = Physics2D.OverlapCircleAll(hitbox.transform.position, radius, layerMask);
+        Collider2D[] barrels = Physics2D.OverlapCircleAll(hitbox.transform.position, radius, layerMask);//get the barrels in the circle
 
         foreach (Collider2D col in barrels)
         {
-            Destroy(col.gameObject);
+            Destroy(col.gameObject);//delete said barrel
         }
     }
 
