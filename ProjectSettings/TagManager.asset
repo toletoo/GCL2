@@ -15,6 +15,9 @@ TagManager:
   - Cover
   - Void
   - ParrySpawn
+  - SpikeBarrel
+  - SpikeSpawn
+  - RegularSpawn
   layers:
   - Default
   - TransparentFX

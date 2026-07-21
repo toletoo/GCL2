@@ -39,11 +39,11 @@ public class BarrelSpawn : MonoBehaviour
 
     IEnumerator SpawnBarrel()
     {
-        if (!gameObject.CompareTag("ParrySpawn"))
+        if (gameObject.CompareTag("RegularSpawn")) // regular barrel sync with animation
         {
             monkeyAnim.SetTrigger("isThrowing");
         }
-        if (gameObject.CompareTag("ParrySpawn")) // parry barrel spawns independently of DK throw anim
+        if (!gameObject.CompareTag("RegularSpawn")) // special barrels spawn independently of DK throw anim
         {
             Instantiate(barrel, transform.position, Quaternion.identity);
             currentSpawnCount++;
@@ -56,7 +56,7 @@ public class BarrelSpawn : MonoBehaviour
         }
     }
 
-    public void SpawnBarrelEvent()
+    public void SpawnBarrelEvent() // called by DK animation event
     {
         Instantiate(barrel, transform.position, Quaternion.identity);
         currentSpawnCount++;
